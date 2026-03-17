@@ -20,7 +20,7 @@ maybe_echo(<<"POST">>, true, Req0) ->
         Delay when is_integer(Delay) -> timer:sleep(Delay)
     end,
     io:format("====headers: ~p, body: ~p~n", [Headers, _Body]),
-    echo(<<"ok\n">>, Req);
+    echo(<<"{\"result\":\"allow\"}\n">>, Req);
 maybe_echo(<<"POST">>, false, Req) ->
     io:format("request received without message body~n"),
     cowboy_req:reply(400, [], <<"Missing body.">>, Req);
@@ -33,5 +33,5 @@ echo(undefined, Req) ->
     cowboy_req:reply(400, [], <<"Missing echo parameter.">>, Req);
 echo(Echo, Req) ->
     cowboy_req:reply(200, #{
-        <<"content-type">> => <<"text/plain; charset=utf-8">>
+        <<"content-type">> => <<"application/json">>
     }, Echo, Req).

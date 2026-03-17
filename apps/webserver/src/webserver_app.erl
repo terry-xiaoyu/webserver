@@ -20,7 +20,8 @@ start(_StartType, _StartArgs) ->
 		]}
 	]),
 	{ok, _} = cowboy:start_clear(http, [{port, Port}], #{
-		env => #{dispatch => Dispatch}
+		env => #{dispatch => Dispatch},
+        idle_timeout => 3600000
 	}),
     {ok, _} = cowboy:start_tls(example, [
             {port, PortTls},
@@ -28,7 +29,8 @@ start(_StartType, _StartArgs) ->
             {cacertfile, "./certs/cacert.pem"},
             {keyfile, "./certs/key.pem"}
         ], #{
-        env => #{dispatch => Dispatch}
+        env => #{dispatch => Dispatch},
+        idle_timeout => 3600000
     }),
     webserver_sup:start_link().
 
